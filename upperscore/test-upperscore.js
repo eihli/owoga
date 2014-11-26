@@ -1,3 +1,7 @@
+/**
+ * Run with: node test-upperscore.js
+ */
+
 var __ = require('./upperscore.js');
 var ast = require('./ast.js');
 

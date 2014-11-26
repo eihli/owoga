@@ -1,9 +1,20 @@
 extends layout
 block content
-  div.container
-    div.container
+  .container
+    .container
+      .row
+        .col-md-12
+          .panel.panel-default
+            .panel-body.
+              This is where the chat will show up.
       div.row
-        div.col-md-4
+        div.col-md-12
+          form(action="/chat", method="POST")
+            .input-group
+              input.form-control(type="text", name="message")
+              span.input-group-btn
+                button.btn.btn-default(type="submit") Send!
+        div.col-md-12
           h2
             | Heading
           p
@@ -11,17 +22,3 @@ block content
           p
             a.btn.btn-default(href="#", role="button")
               | View details
-        div.col-md-4
-          h2
-            | Heading 2
-          p
-            | Donec id elit etc... once again...
-          p 
-            a.btn.btn-default(href="#", role="button") View details
-        div.col-md-4
-          h2 Heading 3
-          p Donec id elite. Cras justo odio dapibus ac facilisi. Vestibulum id ligula
-            | porta felis euismod semper. Fusce dapibus, tellus ac cursus commod, tortor
-            | ut fermentum massa justo sit amet risus.
-          p 
-            a.btn.btn-default(href="#", role="button") View details

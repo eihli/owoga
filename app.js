@@ -1,5 +1,6 @@
 var express = require('express');
 var path = require('path');
+var bodyParser = require('body-parser');
 
 // var routes = require('./routes/index');
 // var users = require('./routes/users');
@@ -9,6 +10,8 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 app.locals.pretty = 'true';
 app.use(express.static(__dirname + '/public'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
 
 
 app.get('/', function(req, res) {
@@ -18,6 +21,10 @@ app.get('/', function(req, res) {
 });
 app.get('/chat', function(req, res){
   res.render('chat')
+})
+app.post('/chat', function(req, res){
+  res.render('chat');
+  console.log(req.body);
 })
 app.get('/twidder', function(req, res){
   res.render('twidder')

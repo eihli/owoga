@@ -1,60 +1,44 @@
-extend layout
-body
-  nav.navbar.navbar-inverse.navbar-fixed-top(role="navigation")
-    div.container
-      div.navbar-header
-        button.navbar-toggle.collapsed(type="button", data-toggle="collapse", data-target="#navbar",
-                                       aria-expanded="false", aria-controls="navbar")
-          span.sr-only Toggle navigation
-          span.icon-bar test
-          span.icon-bar test2
-          span.icon-bar
-        a.navbar-brand(href="#")  Project name
-      div.collapse.navbar-collapse#bs-example-navbar-collapse-1
-        ul.nav.navbar-nav
-          li.active
-            a(href="#") Link
-              span.sr-only (current)
-          li
-            a(href="#") Link
-          li.dropdown
-            a.dropdown-toggle(href="#", data-toggle="dropdown", role="button", aria-expanded="false") Dropdown
-              span.caret
-            ul.dropdown-menu(role="menu")
-              li: a(href="#") Action
-              li: a(href="#") Another action
+extends layout
+block content
   div.container
     div.jumbotron
       h1 #{title}
       p
-        | This is a template for marketing or informational website... etc...
-      p
-        a.btn.btn-primary.btn-large(href="#")
-          | Test text
-    div.container
-      div.row
-        div.col-md-4
-          h2
-            | Heading
-            p
-              | Donec id elit non mi porta gravida at eget metus. etc...
-            p
-              a.btn.btn-default(href="#", role="button")
-                | View details
-        div.col-md-4
-          h2
-            | Heading 2
-            p
-              | Donec id elit etc... once again...
-            p 
-              a.btn.btn-default(href="#", role="button") View details
-        div.col-md-4
-          h2 Heading 3
-            p Donec id elite. Cras justo odio dapibus ac facilisi. Vestibulum id ligula
-              | porta felis euismod semper. Fusce dapibus, tellus ac cursus commod, tortor
-              | ut fermentum massa justo sit amet risus.
-            p 
-              a.btn.btn-default(href="#", role="button") View details
-    hr
-    footer
-      p &copy; Owoga 2014
+        | An online presence for my organized ways of going astray.
+      div.social-links
+        a.btn.btn-social-icon.btn-lg.btn-github(href="https://www.github.com/eihli")
+          i.fa.fa-github
+        a.btn.btn-social-icon.btn-lg.btn-linkedin(href="https://www.linkedin.com/pub/eric-ihli/19/224/a83")
+          i.fa.fa-linkedin
+  div.container
+    div.row
+      div.col-md-4
+        h2
+          | What is this?
+        p
+          | I needed a place to practice what I learn about JavaScript, jQuery, CSS, and the MEAN stack.
+        p
+          b. 
+            This site is currently a scratch pad where I can test code, break things, and play around with web
+            server management without breaking anything important or having a responsibility for 
+            things to work.
+      div.col-md-4
+        h2
+          | Why is this?
+        p
+          | It's fun, enjoyable, exciting, and rewarding.
+          | I've decided to make a career change and begin work in a field
+          | that I would spend my free time on.
+        p 
+          | Part of that career change process is learning. HackReactor is my current goal to accelerate
+          | the process. They say they are a 20 to 120 course (as opposed to 0 to 60) and working on this 
+          | site will hopefully get me to AT LEAST 20.
+      div.col-md-4
+        h2 About my projects
+        p 
+          | I read that as part of the HackReactor admissions, some of the challenges may include writing a: 
+          ul
+            li Chat app <a href="/chat">Chatter</a>
+            li Twitter clone <a href="/twidder">Twidder</a>
+            li Underscore.js inspired lirary <a href="/upperscore">Upperscore.js</a>
+    

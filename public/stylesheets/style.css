@@ -1,8 +1,24 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  padding-top: 65px;
+  font: 14px "Courier New", Helvetica, Arial, sans-serif;
 }
 
-a {
-  color: #00B7FF;
+body.home {
+  padding-top: 0px;
+}
+
+h1 {
+  font: 20px "Courier New";
+}
+
+p {
+  font: 10px;
+}
+
+div.social-links {
+  text-align: center;
+}
+
+div.social-links a{
+  margin: 0px 30px;
 }

@@ -1,14 +1,18 @@
 var express = require('express');
-var ArticleProvider = require('./articleprovider-memory').ArticleProvider;
 var path = require('path');
 
 // var routes = require('./routes/index');
-var users = require('./routes/users');
+// var users = require('./routes/users');
 
 var app = express();
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
+app.locals.pretty = 'true';
+app.use(express.static(__dirname + '/public'));
+
 
 app.get('/', function(req, res) {
-  res.render('nav', {title: 'Owoga'}, function(err, html){
+  res.render('index', {home: true, title: 'Owoga'}, function(err, html){
     res.send(html);
   });
 });
@@ -24,8 +28,4 @@ app.get('/upperscore', function(req, res){
 app.listen(3000);
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-app.locals.pretty = 'true';
-
 module.exports = app;

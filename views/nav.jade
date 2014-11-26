@@ -1,20 +1,27 @@
-extend layout
-block nav
-  nav.navbar.navbar-inverse.navbar-fixed-top(role="navigation")
-        div.container
-          div.navbar-header
-            button.navbar-toggle.collapsed(type="button", data-toggle="collapse", data-target="#navbar",
-                                           aria-expanded="false", aria-controls="navbar")
-              span.sr-only Toggle navigation
-              span.icon-bar
-              span.icon-bar
-              span.icon-bar
+nav.navbar.navbar-inverse.navbar-fixed-top(role="navigation")
+    div.container
+      div.navbar-header
+        button.navbar-toggle.collapsed(type="button", data-toggle="collapse", data-target="#navbar",
+                                       aria-expanded="false", aria-controls="navbar")
+          span.sr-only Toggle navigation
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+      div.collapse.navbar-collapse#navbar
+        ul.nav.navbar-nav
+          li
             a.navbar-brand(href="/") Home
-          div.collapse.navbar-collapse#navbar
-            ul.nav.navbar-nav
-              li.active
-                a(href="/chat") Chat
-                  span.sr-only (current)
-              li
-                a(href="/twidder") Twidder
-              li: a(href="/upperscore") Upperscore.js
+          li
+            a(href="/chat") Chat
+              span.sr-only (current)
+          li
+            a(href="/twidder") Twidder
+          li: a(href="/upperscore") Upperscore.js
+      script(type="text/javascript").
+        var str = location.href.toLowerCase();
+        $(".navbar-nav li a").each(function(){
+          if (str.indexOf(this.href.toLowerCase()) > -1){
+            $("li.active").removeClass("active");
+            $(this).parent().addClass("active");
+          }
+        })

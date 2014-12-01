@@ -20,6 +20,7 @@ io.on('connection', function(client){
   console.log('Client connected...');
   client.on('message', function(msg){
     console.log('message: ' + msg);
+    io.emit('message', msg);
   })
   client.on('disconnect', function(){
     console.log('Client disconnected...');

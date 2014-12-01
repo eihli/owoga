@@ -7,28 +7,25 @@ block content
       .col-md-12
         .bs-example
           .panel.panel-default
-            .panel-body.
-              This is where the chat will show up.
+            #chat-box.panel-body
+              ul#chat-messages
+                li TODO: Add usernames. Style based on user?
+                li TODO: Add persistance (mongo)
     div.row
       div.col-md-12
         form(action="")
           .input-group
-            input#m.form-control(type="text", name="message")
+            input#m.form-control(type="text", name="message", autocomplete="off")
             span.input-group-btn
               button.btn.btn-default Send!
-      div.col-md-12
-        h2
-          | Heading
-        p
-          | Donec id elit non mi porta gravida at eget metus. etc...
-        p
-          a.btn.btn-default(href="#", role="button")
-            | View details
   script.
       var socket = io();
       $("form").submit(function(){
         socket.emit('message', $('#m').val());
         $('#m').val('');
         return false;
+      });
+      socket.on('message', function(msg){
+        $('#chat-messages').append($('<li>').text(msg));
       });
 

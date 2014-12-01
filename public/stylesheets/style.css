@@ -22,3 +22,8 @@ div.social-links {
 div.social-links a{
   margin: 0px 30px;
 }
+
+div.bs-example {
+  color: #5753FF;
+  content: "Chatter";
+}

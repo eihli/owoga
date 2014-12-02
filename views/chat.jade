@@ -9,8 +9,6 @@ block content
           .panel.panel-default
             #chat-box.panel-body
               ul#chat-messages
-                li TODO: Add usernames. Style based on user?
-                li TODO: Add persistance (mongo)
     div.row
       div.col-md-12
         form(action="")
@@ -21,11 +19,27 @@ block content
   script.
       var socket = io();
       $("form").submit(function(){
-        socket.emit('message', $('#m').val());
+        socket.emit('new message', $('#m').val());
         $('#m').val('');
         return false;
       });
-      socket.on('message', function(msg){
-        $('#chat-messages').append($('<li>').text(msg));
+      socket.on('new connection', function(messages){
+        for (var i = messages.length-1; i >= 0; i--){
+          console.log(messages[i]);
+          $('#chat-messages').append($('<li>').text(messages[i].name +
+            ": " + messages[i].message));
+        }
+      });
+      socket.on('post message', function(messages){
+        $('#chat-messages').empty();
+        for (var i = messages.length-1; i >= 0; i--){
+          console.log(messages[i]);
+          $('#chat-messages').append($('<li>').text(messages[i].name +
+            ": " + messages[i].message));
+        }
+      });
+      socket.on('new user', function(){
+        var username = prompt('What is your username?');
+        socket.emit('new user', username);
       });
 

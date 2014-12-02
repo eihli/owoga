@@ -1,9 +1,23 @@
 var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
+var mongoClient = require('mongodb').MongoClient;
+var Db = require('mongodb').Db;
+var Server = require('mongodb').Server;
+var messages;
 
 // var routes = require('./routes/index');
 // var users = require('./routes/users');
+
+mongoClient.connect("mongodb://localhost:27017/test", function(err, db){
+  if(!err){
+    console.log("We are connected");
+  }
+  db.createCollection('messages', function(err, collection){});
+});
+
+var db = new Db('test', new Server('localhost', 27017));
+db.open(function(){});
 
 var app = express();
 var server = require('http').createServer(app);
@@ -16,12 +30,30 @@ app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 
+
 io.on('connection', function(client){
+  db.collection('messages').find().sort({_id:-1}).limit(20)
+      .toArray(function(err, messages){
+         io.emit('new connection', messages);
+    });
+
   console.log('Client connected...');
-  client.on('message', function(msg){
-    console.log('message: ' + msg);
-    io.emit('message', msg);
-  })
+  if (client.username == undefined){
+    client.emit('new user');
+  }
+  client.on('new user', function(username){
+    client.username = username;
+    console.log('new user: ' + client.username);
+    
+  });
+  client.on('new message', function(msg){
+    console.log(client.username + ': ' + msg);
+    db.collection('messages').insert({name: client.username, message: msg});
+    db.collection('messages').find().sort({_id:-1}).limit(20).
+      toArray(function(err, messages){
+      io.emit('post message', messages);
+    });
+  });
   client.on('disconnect', function(){
     console.log('Client disconnected...');
   });
@@ -33,7 +65,6 @@ app.get('/', function(req, res) {
   });
 });
 app.get('/chat', function(req, res){
-  console.log('/chat visited');
   res.render('chat')
 })
 app.post('/chat', function(req, res){

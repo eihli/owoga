@@ -5,6 +5,10 @@ var mongoClient = require('mongodb').MongoClient;
 var Db = require('mongodb').Db;
 var Server = require('mongodb').Server;
 var messages;
+if (process.env.NODE_ENV == 'production)')
+  var port = 80;
+else
+  var port = 3000;
 
 // var routes = require('./routes/index');
 // var users = require('./routes/users');
@@ -78,7 +82,7 @@ app.get('/upperscore', function(req, res){
   res.render('upperscore')
 })
 //app.listen(3000);
-server.listen(3000);
+server.listen(port);
 
 // view engine setup
 module.exports = app;

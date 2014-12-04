@@ -6,9 +6,16 @@ block content
     .row
       .col-md-12
         .bs-example
-          .panel.panel-default
-            #chat-box.panel-body
-              ul#chat-messages
+          .row
+            .col-sm-2.usernames
+              h6 Current Users
+              ul#usernames
+                li Eric
+                li Taylor
+            .col-sm-10
+              .panel.panel-default
+                #chat-box.panel-body
+                  ul#chat-messages
     div.row
       div.col-md-12
         form(action="")

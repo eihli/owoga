@@ -8,7 +8,7 @@ var messages;
 if (process.env.NODE_ENV == 'production)')
   var port = 80;
 else
-  var port = 3000;
+  var port = 3001;
 
 // var routes = require('./routes/index');
 // var users = require('./routes/users');
@@ -71,17 +71,14 @@ app.get('/', function(req, res) {
 app.get('/chat', function(req, res){
   res.render('chat')
 })
-app.post('/chat', function(req, res){
-  res.render('chat');
-  console.log(req.body);
-})
+
 app.get('/twidder', function(req, res){
   res.render('twidder')
 })
 app.get('/upperscore', function(req, res){
   res.render('upperscore')
 })
-//app.listen(3000);
+
 server.listen(port);
 
 // view engine setup

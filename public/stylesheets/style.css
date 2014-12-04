@@ -12,7 +12,6 @@ h1 {
 }
 
 p {
-  font: 10px;
 }
 
 div.social-links {
@@ -28,6 +27,20 @@ div.bs-example::after {
   content: "Chatter";
 }
 
-ul#chat-messages {
+div.no-gutter {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+div.usernames {
+  padding-right: 0px;
+}
+
+ul#usernames {
+  font-size: 12px;
+}
+
+ul#chat-messages, ul#usernames {
   list-style: none;
+  padding-left: 0px;
 }

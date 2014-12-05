@@ -36,14 +36,15 @@ block content
           $('#chat-messages').append($('<li>').text(messages[i].name +
             ": " + messages[i].message));
         }
+        $('#chat-box').scrollTop($('#chat-box').height());
       });
       socket.on('post message', function(messages){
         $('#chat-messages').empty();
         for (var i = messages.length-1; i >= 0; i--){
-          console.log(messages[i]);
           $('#chat-messages').append($('<li>').text(messages[i].name +
             ": " + messages[i].message));
         }
+        $('#chat-box').scrollTop($('#chat-box').height());
       });
       socket.on('new user', function(){
         var username = prompt('What is your username?');

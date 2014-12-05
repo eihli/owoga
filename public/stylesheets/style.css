@@ -44,3 +44,9 @@ ul#chat-messages, ul#usernames {
   list-style: none;
   padding-left: 0px;
 }
+
+#chat-box {
+  height: 20em;
+  overflow: scroll;
+  overflow-x: hidden;
+}

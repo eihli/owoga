@@ -4,6 +4,12 @@ block content
   .container
   .container
     .row#new-user(style="display:block;") Login
+      .col-mid-12
+        form.nu(action="")
+          .input-group
+            input.nu.form-control(placeholder="Username", type="text", name="username", autocomplete="off")
+            span.input-group-btn
+              button.btn.btn-default Sign In!
     .row
       .col-md-12
         .bs-example
@@ -19,17 +25,23 @@ block content
                   ul#chat-messages
     div.row
       div.col-md-12
-        form(action="")
+        form.message(action="")
           .input-group
             input#m.form-control(type="text", name="message", autocomplete="off")
             span.input-group-btn
               button.btn.btn-default Send!
   script.
       var socket = io();
-      $("form").submit(function(){
+      $("form.message").submit(function(){
         socket.emit('new message', $('#m').val());
         $('#m').val('');
-        return false;
+        return false; // Prevents page from reloading after form submission
+      });
+      $("form.nu").submit(function(){
+        console.log("new user: " + $("input.nu").val());
+        socket.emit('new user', $('input.nu').val());
+        $("#new-user").hide();
+        return false; // Prevents the page from reloading after form submission
       });
       socket.on('new connection', function(messages){
         for (var i = messages.length-1; i >= 0; i--){
@@ -46,13 +58,5 @@ block content
             ": " + messages[i].message));
         }
         $('#chat-box').scrollTop($('#chat-box').height());
-      });
-      socket.on('new user', function(){
-        var username = prompt('What is your username?');
-        socket.emit('new user', username);
-      });
-      socket.on('hide login', function(){
-        console.log('hiding login');
-        $('#new-user').hide();
       });
 

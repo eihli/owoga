@@ -48,7 +48,6 @@ io.on('connection', function(client){
   client.on('new user', function(username){
     client.username = username;
     console.log('new user: ' + client.username);
-    client.emit('hide login');
   });
   client.on('new message', function(msg){
     console.log(client.username + ': ' + msg);

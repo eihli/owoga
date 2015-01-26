@@ -3,6 +3,7 @@ block content
   script(src="/socket.io.js")
   .container
   .container
+    .row#new-user(style="display:block;") Login
     .row
       .col-md-12
         .bs-example
@@ -49,5 +50,9 @@ block content
       socket.on('new user', function(){
         var username = prompt('What is your username?');
         socket.emit('new user', username);
+      });
+      socket.on('hide login', function(){
+        console.log('hiding login');
+        $('#new-user').hide();
       });
 

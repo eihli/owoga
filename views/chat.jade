@@ -5,9 +5,9 @@ block content
   .container
     .row#new-user(style="display:block;") Login
       .col-mid-12
-        form.nu(action="")
+        form.user(action="")
           .input-group
-            input.nu.form-control(placeholder="Username", type="text", name="username", autocomplete="off")
+            input.user.form-control(placeholder="Username", type="text", name="username", autocomplete="off")
             span.input-group-btn
               button.btn.btn-default Sign In!
     .row
@@ -17,8 +17,6 @@ block content
             .col-sm-2.usernames
               h6 Current Users
               ul#usernames
-                li Eric
-                li Taylor
             .col-sm-10
               .panel.panel-default
                 #chat-box.panel-body
@@ -37,11 +35,24 @@ block content
         $('#m').val('');
         return false; // Prevents page from reloading after form submission
       });
-      $("form.nu").submit(function(){
-        console.log("new user: " + $("input.nu").val());
-        socket.emit('new user', $('input.nu').val());
+      $("form.user").submit(function(){
+        console.log("new user: " + $("input.user").val());
+        socket.emit('new user', $('input.user').val());
         $("#new-user").hide();
         return false; // Prevents the page from reloading after form submission
+      });
+      socket.on('new user', function(chatroom_data){
+        $("#usernames").empty()
+        console.log(chatroom_data.active_users)
+        for (var i = chatroom_data['active_users'].length - 1; i >= 0; i--){
+          $("#usernames").append("<li>" + chatroom_data['active_users'][i] + "</li>");
+        }
+      });
+      socket.on('update user list', function(active_users){
+        $("#usernames").empty();
+        for (var i = active_users.length - 1; i >= 0; i--){
+         $("#usernames").append("<li>" + active_users[i] + "</li>");
+        }
       });
       socket.on('new connection', function(messages){
         for (var i = messages.length-1; i >= 0; i--){
@@ -51,7 +62,7 @@ block content
         }
         $('#chat-box').scrollTop($('#chat-box').height());
       });
-      socket.on('post message', function(messages){
+      socket.on('new message', function(messages){
         $('#chat-messages').empty();
         for (var i = messages.length-1; i >= 0; i--){
           $('#chat-messages').append($('<li>').text(messages[i].name +

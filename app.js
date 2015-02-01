@@ -4,6 +4,11 @@ var bodyParser = require('body-parser');
 var mongoClient = require('mongodb').MongoClient;
 var Db = require('mongodb').Db;
 var Server = require('mongodb').Server;
+var active_users = [];
+var chatroom_data = {
+  active_users: [],
+  messages: [],
+}
 var messages;
 if (process.env.NODE_ENV == 'production)')
   var port = 80;
@@ -36,32 +41,31 @@ app.use(bodyParser.urlencoded());
 
 
 io.on('connection', function(client){
-  db.collection('messages').find().sort({_id:-1}).limit(20)
-      .toArray(function(err, messages){
-         io.emit('new connection', messages);
-    });
-
   console.log('Client connected...');
   if (client.username == undefined){
-    client.emit('new user');
+    client.emit('new user', chatroom_data);
   }
   client.on('new user', function(username){
+    active_users.push(username);
+    console.log(active_users);
     client.username = username;
-    console.log('new user: ' + client.username);
+    io.emit('update user list', active_users);
+    db.collection('messages').find().sort({_id:-1}).limit(20).toArray(function(err, messages){
+      client.emit('new message', messages);
+    });
   });
   client.on('new message', function(msg){
-    console.log(client.username + ': ' + msg);
     db.collection('messages').insert({name: client.username, message: msg});
-    db.collection('messages').find().sort({_id:-1}).limit(20).
-      toArray(function(err, messages){
-      io.emit('post message', messages);
+    messages = db.collection('messages').find().sort({_id:-1}).limit(20).toArray(function(err, messages){
+      io.emit('new message', messages);
     });
   });
   client.on('disconnect', function(){
+    active_users.splice(active_users.indexOf(client.username), 1);
     console.log('Client disconnected...');
+    io.emit('update user list', active_users);
   });
 });
-
 app.get('/', function(req, res) {
   res.render('index', {home: true, title: 'Owoga'}, function(err, html){
     res.send(html);
@@ -69,14 +73,14 @@ app.get('/', function(req, res) {
 });
 app.get('/chat', function(req, res){
   res.render('chat')
-})
+});
 
 app.get('/twidder', function(req, res){
   res.render('twidder')
-})
+});
 app.get('/upperscore', function(req, res){
   res.render('upperscore')
-})
+});
 
 server.listen(port);
 

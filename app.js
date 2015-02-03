@@ -1,40 +1,54 @@
 var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
+var app = express();
+var server = require('http').createServer(app);
+var io = require('socket.io').listen(server);
+
+// This mongodb stuff needs to be cleaned up.
+// Kind of like ExpressJS makes using NodeJS
+// easier, I think I can use something like
+// Mongoose to make using MongoDB easier.
 var mongoClient = require('mongodb').MongoClient;
 var Db = require('mongodb').Db;
 var Server = require('mongodb').Server;
+
+// This variable is only used on the /chat page.
+// It seems weird having it in app.js. I feel like I need
+// to separate out each of the different apps.
+// Don't know how though.
 var active_users = [];
-var chatroom_data = {
-  active_users: [],
-  messages: [],
-}
-var messages;
+
+// You'll have to google this for details but
+// you can set a node global variable that
+// tells the server what type of environment it is
+// and have code do different things based on what
+// that variable is.
 if (process.env.NODE_ENV == 'production)')
   var port = 80;
 else
   var port = 3001;
 
-// var routes = require('./routes/index');
-// var users = require('./routes/users');
-
 mongoClient.connect("mongodb://localhost:27017/test", function(err, db){
   if(!err){
     console.log("We are connected");
   }
+  // Yes, this tries to create a new collection
+  // every time the server is run. But if the collection
+  // already exists, it just ignores the command.
   db.createCollection('messages', function(err, collection){});
 });
 
+// I think I can connect to other databases on the same
+// mongod process by just doing a:
+// var other_db = new Db('other_db', new Server...)
+// The Db object can be reused.
 var db = new Db('test', new Server('localhost', 27017));
-db.open(function(){});
-
-var app = express();
-var server = require('http').createServer(app);
-var io = require('socket.io').listen(server);
+db.open(function(){}); // What is purpose of this anonymous functio?
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-app.locals.pretty = 'true';
+app.locals.pretty = 'true'; // What does this do?
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
@@ -42,9 +56,11 @@ app.use(bodyParser.urlencoded());
 
 io.on('connection', function(client){
   console.log('Client connected...');
+  console.log(client.username);
   if (client.username == undefined){
-    client.emit('new user', chatroom_data);
-  }
+    client.username = 'Anonymous';
+  };
+  console.log(client.username);
   client.on('new user', function(username){
     active_users.push(username);
     console.log(active_users);
@@ -66,6 +82,8 @@ io.on('connection', function(client){
     io.emit('update user list', active_users);
   });
 });
+
+
 app.get('/', function(req, res) {
   res.render('index', {home: true, title: 'Owoga'}, function(err, html){
     res.send(html);

@@ -41,13 +41,6 @@ block content
         $("#new-user").hide();
         return false; // Prevents the page from reloading after form submission
       });
-      socket.on('new user', function(chatroom_data){
-        $("#usernames").empty()
-        console.log(chatroom_data.active_users)
-        for (var i = chatroom_data['active_users'].length - 1; i >= 0; i--){
-          $("#usernames").append("<li>" + chatroom_data['active_users'][i] + "</li>");
-        }
-      });
       socket.on('update user list', function(active_users){
         $("#usernames").empty();
         for (var i = active_users.length - 1; i >= 0; i--){

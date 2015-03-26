@@ -2,3 +2,4 @@ npm-debug.log
 scratch.js
 upperscore/backup/
 *.swp
+.DS_Store

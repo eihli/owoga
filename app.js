@@ -57,9 +57,9 @@ app.use(bodyParser.urlencoded());
 io.on('connection', function(client){
   console.log('Client connected...');
   console.log(client.username);
-  if (client.username == undefined){
+  if (client.username === undefined){
     client.username = 'Anonymous';
-  };
+  }
   console.log(client.username);
   client.on('new user', function(username){
     active_users.push(username);
@@ -90,14 +90,14 @@ app.get('/', function(req, res) {
   });
 });
 app.get('/chat', function(req, res){
-  res.render('chat')
+  res.render('chat');
 });
 
 app.get('/twidder', function(req, res){
-  res.render('twidder')
+  res.render('twidder');
 });
 app.get('/upperscore', function(req, res){
-  res.render('upperscore')
+  res.render('upperscore');
 });
 
 server.listen(port);

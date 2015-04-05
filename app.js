@@ -36,7 +36,7 @@ mongoClient.connect("mongodb://localhost:27017/test", function(err, db){
   // Yes, this tries to create a new collection
   // every time the server is run. But if the collection
   // already exists, it just ignores the command.
-  db.createCollection('messages', function(err, collection){});
+  db.collection('messages');
 });
 
 // I think I can connect to other databases on the same

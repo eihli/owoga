@@ -147,8 +147,8 @@ class Ranking(object):
     # center_fielders = df_batters[df_batters.apply(lambda e: 'CF' in e['Position'].split(','), axis=1)]
     # center_fielders.head()
 
-# if __name__ == '__main__':
-#   Ranking().createCsv()
+if __name__ == '__main__':
+  Ranking().createCsv()
 
 s = zerorpc.Server(Ranking())
 s.bind("tcp://0.0.0.0:4242")

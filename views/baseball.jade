@@ -1,0 +1,5 @@
+extends layout
+block content
+  ul
+    each val, index in files
+      li: a(href='/baseball/rankings/' + val)= val

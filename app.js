@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
+var fs = require('fs');
 
 // This mongodb stuff needs to be cleaned up.
 // Kind of like ExpressJS makes using NodeJS
@@ -28,6 +29,32 @@ if (process.env.NODE_ENV == 'production)')
   var port = 80;
 else
   var port = 3001;
+
+// Refactor this
+var getCsv = function(callback){
+  var zerorpc = require('zerorpc');
+  var client = new zerorpc.Client();
+  var result = [];
+
+  client.connect('tcp://127.0.0.1:4242');
+  client.invoke('createCsv', function(err, res, more) {
+    if (err) {
+      console.error(err);
+    } else {
+      console.log('ran: ' + res);
+    }
+    if (!more) {
+      console.log('done.');
+    }
+  });
+  fs.readdir(__dirname + '/baseball/rankings/', function(err, files) {
+    for (var i = 0; i < files.length; i++) {
+      result.push(files[i]);
+    }
+  });
+  callback(result);
+};
+
 
 mongoClient.connect("mongodb://localhost:27017/test", function(err, db){
   if(!err){
@@ -89,6 +116,26 @@ app.get('/', function(req, res) {
     res.send(html);
   });
 });
+
+app.get('/wtf', function(req, res) {
+  console.log('wtf');
+});
+
+app.get('/baseball/rankings/:file', function(req, res) {
+  var file = req.params.file;
+  console.log('request for: ' + file);
+  res.sendfile(__dirname + '/baseball/rankings/' + file);
+});
+
+app.get('/baseball', function(req, res) {
+  getCsv(function() {
+    fs.readdir(__dirname + '/baseball/rankings', function(err, files) {
+      console.log(files);
+      res.render('baseball', {'files': files});
+    });
+  });
+});
+
 app.get('/chat', function(req, res){
   res.render('chat');
 });

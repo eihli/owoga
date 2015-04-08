@@ -1,16 +1,15 @@
+// Connect to a zerorpc python server. Check the cache
+// to see if we've already run the function for the day.
+// Run the 'createCsv' function
+// from that server if we haven't yet. 
+
 var zerorpc = require('zerorpc');
 var client = new zerorpc.Client();
 var fs = require('fs');
 var _ = require('underscore');
 
-var date = new Date();
-var key = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
-console.log("Key: " + key);
-
 var getCsv = function() {
-  
   var cache = {};
-
   return function(date, callback){
     console.log(cache);
     if (!_.has(cache, date)) {

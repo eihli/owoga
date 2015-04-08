@@ -5,7 +5,7 @@ var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 var fs = require('fs');
-var getCsv = require('./baseball/getCsv').getCsv;
+var getCsv = require('./baseball/getCsv.js').getCsv;
 
 // This mongodb stuff needs to be cleaned up.
 // Kind of like ExpressJS makes using NodeJS

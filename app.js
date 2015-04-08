@@ -98,8 +98,10 @@ app.get('/baseball/rankings/:file', function(req, res) {
   res.sendfile(__dirname + '/baseball/rankings/' + file);
 });
 
+var date = new Date();
+var key = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
 app.get('/baseball', function(req, res) {
-  getCsv(function(files) {
+  getCsv(key, function(files) {
       res.render('baseball', {'files': files});
   });
 });

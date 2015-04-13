@@ -31,6 +31,9 @@ var getCsv = function() {
       });
     } else {
       fs.readdir(__dirname + '/rankings/', function(err, files) {
+        for (key, value in this.cache) {
+          console.log(key + ": " + value);
+        }
         console.log('Found in cache. ' + files);
         callback(files);
       });
